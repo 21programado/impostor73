@@ -1,10 +1,10 @@
-const CACHE_NAME = "impostor-v3";
+const CACHE_NAME = "impostor-v4";
 const FILES_TO_CACHE = [
-  "/el-impostor/",
-  "/el-impostor/index.html",
-  "/el-impostor/manifest.json",
-  "/el-impostor/icon-192.png",
-  "/el-impostor/icon-512.png"
+  "/impostor73/",
+  "/impostor73/index.html",
+  "/impostor73/manifest.json",
+  "/impostor73/icon-192.png",
+  "/impostor73/icon-512.png"
 ];
 
 self.addEventListener("install", event => {
@@ -20,6 +20,8 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
   event.respondWith(
-    caches.match(event.request).then(r => r || fetch(event.request))
+    caches.match(event.request).then(
+      response => response || fetch(event.request)
+    )
   );
 });
