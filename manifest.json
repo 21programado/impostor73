@@ -1,19 +1,21 @@
 {
   "name": "El Impostor",
   "short_name": "Impostor",
-  "start_url": "/el-impostor/",
-  "scope": "/el-impostor/",
+  "description": "Juego social El Impostor para jugar sin internet",
+  "start_url": "/impostor73/",
+  "scope": "/impostor73/",
   "display": "standalone",
   "background_color": "#667eea",
   "theme_color": "#667eea",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "/el-impostor/icon-192.png",
+      "src": "/impostor73/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/el-impostor/icon-512.png",
+      "src": "/impostor73/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
