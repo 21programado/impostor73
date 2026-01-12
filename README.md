@@ -1,0 +1,1 @@
+Para jugar al Impostor.
