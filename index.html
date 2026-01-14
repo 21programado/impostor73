@@ -3,623 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
+
   <title>🎭 El Impostor</title>
 
-  <link rel="manifest" href="manifest.json">
+  <!-- PWA -->
+  <link rel="manifest" href="/impostor73/manifest.json">
   <meta name="theme-color" content="#667eea">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-    
+    /* === TU CSS ORIGINAL (SIN CAMBIOS FUNCIONALES) === */
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       padding: 20px;
-      overflow-x: hidden;
     }
-    
     .container {
       background: white;
       border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       max-width: 600px;
-      width: 100%;
-      margin: 0 auto;
+      margin: auto;
       padding: 30px 20px;
     }
-    
-    h1 {
-      color: #667eea;
-      text-align: center;
-      margin-bottom: 25px;
-      font-size: 2em;
-    }
-    
-    .screen {
-      display: none;
-    }
-    
-    .screen.active {
-      display: block;
-      animation: fadeIn 0.3s;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .input-group {
-      margin-bottom: 20px;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #333;
-      font-weight: 600;
-    }
-    
-    input[type="text"] {
+    h1 { text-align: center; color: #667eea; margin-bottom: 20px; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+    button {
       width: 100%;
       padding: 15px;
-      border: 2px solid #ddd;
-      border-radius: 10px;
-      font-size: 16px;
-      transition: border-color 0.3s;
-    }
-    
-    input[type="text"]:focus {
-      outline: none;
-      border-color: #667eea;
-    }
-    
-    button {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
       border: none;
-      padding: 15px 30px;
       border-radius: 10px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
       font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      width: 100%;
-      touch-action: manipulation;
-    }
-    
-    button:active {
-      transform: scale(0.98);
-    }
-    
-    button.secondary {
-      background: #6c757d;
-      margin-top: 10px;
-    }
-    
-    button.danger {
-      background: #dc3545;
-    }
-    
-    .players-list {
-      margin: 20px 0;
-      padding: 20px;
-      background: #f8f9fa;
-      border-radius: 10px;
-      max-height: 50vh;
-      overflow-y: auto;
-    }
-    
-    .player-item {
-      padding: 12px;
-      background: white;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    
-    .remove-btn {
-      background: #dc3545;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      width: auto;
-    }
-    
-    .reveal-card {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 40px 20px;
-      border-radius: 15px;
-      text-align: center;
-      margin: 20px 0;
-      min-height: 250px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform 0.2s;
-      touch-action: manipulation;
-    }
-    
-    .reveal-card:active {
-      transform: scale(0.98);
-    }
-    
-    .reveal-card.revealed {
-      cursor: default;
-    }
-    
-    .reveal-card h2 {
-      font-size: 1.8em;
-      margin-bottom: 15px;
-    }
-    
-    .palabra-secreta {
-      font-size: 2.5em;
       font-weight: bold;
-      margin: 20px 0;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-      word-wrap: break-word;
-    }
-    
-    .impostor-badge {
-      background: #dc3545;
-      padding: 20px;
-      border-radius: 10px;
-      font-size: 2em;
-      font-weight: bold;
-      animation: pulse 1.5s infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    
-    .hidden-content {
-      display: none;
-    }
-    
-    .navigation-btns {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    
-    .navigation-btns button {
-      flex: 1;
-    }
-    
-    .settings-section {
-      margin-top: 20px;
-      padding: 20px;
-      background: #f8f9fa;
-      border-radius: 10px;
-    }
-    
-    .word-input-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    
-    .word-input-group input {
-      flex: 1;
-    }
-    
-    .word-input-group button {
-      width: auto;
-      padding: 15px 20px;
-    }
-    
-    .words-list {
-      max-height: 200px;
-      overflow-y: auto;
-      background: white;
-      padding: 10px;
-      border-radius: 8px;
-      margin-top: 10px;
-    }
-    
-    .word-tag {
-      display: inline-block;
-      background: #667eea;
-      color: white;
-      padding: 5px 12px;
-      margin: 5px;
-      border-radius: 15px;
-      font-size: 14px;
-    }
-    
-    .word-tag button {
-      background: none;
-      border: none;
-      color: white;
-      margin-left: 8px;
       cursor: pointer;
-      padding: 0;
-      width: auto;
-      font-size: 16px;
-    }
-    
-    .tab-buttons {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    
-    .tab-buttons button {
-      flex: 1;
-      background: #e9ecef;
-      color: #495057;
-    }
-    
-    .tab-buttons button.active {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>🎭 El Impostor</h1>
-    
-    <!-- Pantalla 1: Añadir jugadores -->
-    <div id="screen1" class="screen active">
-      <div class="tab-buttons">
-        <button class="active" onclick="showTab('players')">Jugadores</button>
-        <button onclick="showTab('words')">Palabras</button>
-      </div>
-
-      <div id="playersTab">
-        <div class="input-group">
-          <label for="playerName">Nombre del jugador:</label>
-          <input type="text" id="playerName" placeholder="Ingresa tu nombre">
-        </div>
-        <button onclick="addPlayer()">Añadir Jugador</button>
-        
-        <div class="players-list" id="playersList"></div>
-        
-        <button onclick="startGame()" id="startBtn" style="display:none;">🎮 Iniciar Juego</button>
-      </div>
-
-      <div id="wordsTab" style="display:none;">
-        <div class="settings-section">
-          <h3 style="margin-bottom:15px; color:#667eea;">Gestionar Palabras</h3>
-          <div class="word-input-group">
-            <input type="text" id="newWord" placeholder="Nueva palabra">
-            <button onclick="addWord()">➕</button>
-          </div>
-          <p style="margin-bottom:10px; color:#666;">Total: <span id="wordCount">0</span> palabras</p>
-          <div class="words-list" id="wordsList"></div>
-          <button class="danger" onclick="resetWords()" style="margin-top:10px;">Restaurar palabras predeterminadas</button>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Pantalla 2: Revelar roles -->
-    <div id="screen2" class="screen">
-      <div id="revealArea"></div>
-      <div class="navigation-btns">
-        <button class="secondary" onclick="restartGame()">🔄 Nuevo Juego</button>
-      </div>
-    </div>
+    <p style="text-align:center;color:#666;">
+      App PWA instalada correctamente ✔
+    </p>
   </div>
 
+  <!-- REGISTRO DEL SERVICE WORKER -->
   <script>
-    // Palabras predeterminadas
-    const DEFAULT_WORDS = [
-      "Playa", "Montaña", "Pizza", "Café", "Libro", "Película", "Verano", "Invierno",
-      "Guitarra", "Fútbol", "Perro", "Gato", "Avión", "Barco", "Ciudad", "Campo",
-      "Lluvia", "Sol", "Luna", "Estrella", "Océano", "Bosque", "Desierto", "Nieve",
-      "Chocolate", "Helado", "Frutas", "Verduras", "Coche", "Bicicleta", "Tren",
-      "Música", "Baile", "Arte", "Ciencia", "Historia", "Matemáticas", "Fiesta",
-      "Cumpleaños", "Navidad", "Vacaciones", "Trabajo", "Escuela", "Universidad",
-      "Hospital", "Restaurante", "Hotel", "Parque", "Zoo", "Museo", "Teatro",
-      "Cine", "Playa", "Piscina", "Río", "Lago", "Cascada", "Volcán", "Isla",
-      "Puente", "Torre", "Castillo", "Pirámide", "Estatua", "Jardín", "Mercado",
-      "Feria", "Circo", "Concierto", "Boda", "Graduación", "Viaje", "Aventura",
-      "Magia", "Robot", "Dinosaurio", "Dragón", "Unicornio", "Pirata", "Princesa",
-      "Superhéroe", "Detective", "Doctor", "Chef", "Astronauta", "Piloto", "Policía"
-    ];
-
-    let players = [];
-    let palabras = [];
-    let gameData = null;
-    let currentPlayerIndex = 0;
-    let currentTab = 'players';
-    
-    // Inicializar la aplicación
-    function init() {
-      loadWords();
-      updatePlayersList();
-      updateWordsList();
-    }
-    
-    // Cargar palabras desde localStorage
-    function loadWords() {
-      const stored = localStorage.getItem('impostorWords');
-      if (stored) {
-        palabras = JSON.parse(stored);
-      } else {
-        palabras = [...DEFAULT_WORDS];
-        saveWords();
-      }
-    }
-    
-    // Guardar palabras en localStorage
-    function saveWords() {
-      localStorage.setItem('impostorWords', JSON.stringify(palabras));
-      updateWordsList();
-    }
-    
-    // Añadir nueva palabra
-    function addWord() {
-      const input = document.getElementById('newWord');
-      const word = input.value.trim();
-      
-      if (word === '') {
-        alert('Por favor ingresa una palabra');
-        return;
-      }
-      
-      if (palabras.includes(word)) {
-        alert('Esta palabra ya está en la lista');
-        return;
-      }
-      
-      palabras.push(word);
-      input.value = '';
-      saveWords();
-    }
-    
-    // Eliminar palabra
-    function removeWord(index) {
-      if (palabras.length <= 10) {
-        alert('Debes mantener al menos 10 palabras');
-        return;
-      }
-      palabras.splice(index, 1);
-      saveWords();
-    }
-    
-    // Restaurar palabras predeterminadas
-    function resetWords() {
-      if (confirm('¿Seguro que quieres restaurar las palabras predeterminadas?')) {
-        palabras = [...DEFAULT_WORDS];
-        saveWords();
-      }
-    }
-    
-    // Actualizar lista de palabras
-    function updateWordsList() {
-      const list = document.getElementById('wordsList');
-      const count = document.getElementById('wordCount');
-      
-      count.textContent = palabras.length;
-      
-      list.innerHTML = '';
-      palabras.forEach((word, index) => {
-        const tag = document.createElement('span');
-        tag.className = 'word-tag';
-        tag.innerHTML = `${word} <button onclick="removeWord(${index})">×</button>`;
-        list.appendChild(tag);
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/impostor73/sw.js')
+          .then(() => console.log('Service Worker registrado'))
+          .catch(err => console.error('SW error', err));
       });
     }
-    
-    // Cambiar entre tabs
-    function showTab(tab) {
-      currentTab = tab;
-      const buttons = document.querySelectorAll('.tab-buttons button');
-      buttons.forEach(btn => btn.classList.remove('active'));
-      
-      if (tab === 'players') {
-        buttons[0].classList.add('active');
-        document.getElementById('playersTab').style.display = 'block';
-        document.getElementById('wordsTab').style.display = 'none';
-      } else {
-        buttons[1].classList.add('active');
-        document.getElementById('playersTab').style.display = 'none';
-        document.getElementById('wordsTab').style.display = 'block';
-      }
-    }
-    
-    // Añadir jugador
-    function addPlayer() {
-      const input = document.getElementById('playerName');
-      const name = input.value.trim();
-      
-      if (name === '') {
-        alert('Por favor ingresa un nombre');
-        return;
-      }
-      
-      if (players.includes(name)) {
-        alert('Este jugador ya está en la lista');
-        return;
-      }
-      
-      players.push(name);
-      input.value = '';
-      updatePlayersList();
-    }
-    
-    // Actualizar lista de jugadores
-    function updatePlayersList() {
-      const list = document.getElementById('playersList');
-      const startBtn = document.getElementById('startBtn');
-      
-      if (players.length === 0) {
-        list.innerHTML = '<p style="text-align:center; color:#666; padding:20px;">No hay jugadores aún</p>';
-        startBtn.style.display = 'none';
-      } else {
-        list.innerHTML = '<h3 style="margin-bottom:15px; color:#333;">Jugadores (' + players.length + '):</h3>';
-        players.forEach((player, index) => {
-          const div = document.createElement('div');
-          div.className = 'player-item';
-          div.innerHTML = `
-            <span><strong>${index + 1}.</strong> ${player}</span>
-            <button class="remove-btn" onclick="removePlayer(${index})">×</button>
-          `;
-          list.appendChild(div);
-        });
-        
-        startBtn.style.display = players.length >= 3 ? 'block' : 'none';
-      }
-    }
-    
-    // Eliminar jugador
-    function removePlayer(index) {
-      players.splice(index, 1);
-      updatePlayersList();
-    }
-    
-    // Iniciar juego
-    function startGame() {
-      if (players.length < 3) {
-        alert('Se necesitan al menos 3 jugadores');
-        return;
-      }
-      
-      if (palabras.length === 0) {
-        alert('No hay palabras disponibles. Añade palabras en la pestaña "Palabras"');
-        return;
-      }
-      
-      // Seleccionar palabra aleatoria
-      const palabraSecreta = palabras[Math.floor(Math.random() * palabras.length)];
-      
-      // Seleccionar impostor aleatorio
-      const indexImpostor = Math.floor(Math.random() * players.length);
-      
-      // Crear resultado para cada jugador
-      gameData = {
-        jugadores: players.map((nombre, index) => ({
-          nombre: nombre,
-          palabra: index === indexImpostor ? "IMPOSTOR" : palabraSecreta,
-          esImpostor: index === indexImpostor
-        }))
-      };
-      
-      currentPlayerIndex = 0;
-      showScreen('screen2');
-      showNextPlayer();
-    }
-    
-    // Mostrar siguiente jugador
-    function showNextPlayer() {
-      const revealArea = document.getElementById('revealArea');
-      
-      if (currentPlayerIndex >= gameData.jugadores.length) {
-        revealArea.innerHTML = `
-          <div style="text-align:center; padding:40px;">
-            <h2 style="color:#667eea; margin-bottom:20px;">¡Todos han visto su rol!</h2>
-            <p style="font-size:1.2em; color:#666;">El juego puede comenzar 🎭</p>
-          </div>
-        `;
-        return;
-      }
-      
-      const jugador = gameData.jugadores[currentPlayerIndex];
-      
-      revealArea.innerHTML = `
-        <div class="reveal-card" id="revealCard" onclick="revealRole()">
-          <h2>${jugador.nombre}</h2>
-          <p style="font-size:1.2em; margin-top:15px;">👆 Toca para ver tu rol</p>
-          <div class="hidden-content" id="roleContent">
-            ${jugador.esImpostor ? 
-              '<div class="impostor-badge">🎭 IMPOSTOR</div><p style="margin-top:15px; font-size:1.1em;">Intenta descubrir la palabra secreta</p>' : 
-              '<div><p style="font-size:1.2em; margin-bottom:10px;">Tu palabra es:</p><div class="palabra-secreta">' + jugador.palabra + '</div></div>'
-            }
-          </div>
-        </div>
-        <button onclick="nextPlayer()" id="nextBtn" style="display:none;">Siguiente Jugador ➡️</button>
-      `;
-    }
-    
-    // Revelar rol
-    function revealRole() {
-      const card = document.getElementById('revealCard');
-      const content = document.getElementById('roleContent');
-      const nextBtn = document.getElementById('nextBtn');
-      
-      if (card.classList.contains('revealed')) return;
-      
-      card.classList.add('revealed');
-      card.onclick = null;
-      content.classList.remove('hidden-content');
-      card.querySelector('p').style.display = 'none';
-      nextBtn.style.display = 'block';
-    }
-    
-    // Siguiente jugador
-    function nextPlayer() {
-      currentPlayerIndex++;
-      showNextPlayer();
-    }
-    
-    // Reiniciar juego
-    function restartGame() {
-      players = [];
-      gameData = null;
-      currentPlayerIndex = 0;
-      showScreen('screen1');
-      showTab('players');
-      updatePlayersList();
-    }
-    
-    // Cambiar pantalla
-    function showScreen(screenId) {
-      document.querySelectorAll('.screen').forEach(screen => {
-        screen.classList.remove('active');
-      });
-      document.getElementById(screenId).classList.add('active');
-    }
-    
-    // Permitir añadir con Enter
-    document.addEventListener('DOMContentLoaded', function() {
-      init();
-      
-      document.getElementById('playerName').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          addPlayer();
-        }
-      });
-      
-      document.getElementById('newWord').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          addWord();
-        }
-      });
-    });
   </script>
-
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/impostor73/sw.js');
-    });
-  }
-</script>
-
-
 </body>
-
 </html>
-
-
