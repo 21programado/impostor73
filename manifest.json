@@ -2,8 +2,8 @@
   "name": "El Impostor",
   "short_name": "Impostor",
   "description": "Juego social El Impostor para jugar sin internet",
-  "start_url": "/impostor73/index.html",
-  "scope": "/impostor73/",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#667eea",
   "theme_color": "#667eea",
@@ -21,3 +21,4 @@
     }
   ]
 }
+
