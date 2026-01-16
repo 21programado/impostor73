@@ -1,7 +1,6 @@
 const CACHE_NAME = "impostor-v1";
 
 const FILES_TO_CACHE = [
-  "/impostor73/",
   "/impostor73/index.html",
   "/impostor73/manifest.json",
   "/impostor73/icon-192.png",
@@ -33,3 +32,4 @@ self.addEventListener("fetch", event => {
     )
   );
 });
+
