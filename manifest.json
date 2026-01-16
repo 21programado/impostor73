@@ -1,13 +1,11 @@
 {
   "name": "El Impostor",
   "short_name": "Impostor",
-  "description": "Juego social El Impostor para jugar sin internet",
-  "start_url": "./index.html",
-  "scope": "./",
+  "description": "Juego de roles donde debes descubrir al impostor",
+  "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#667eea",
+  "background_color": "#ffffff",
   "theme_color": "#667eea",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
