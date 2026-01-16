@@ -1,12 +1,11 @@
 {
   "name": "El Impostor",
   "short_name": "Impostor",
-  "description": "Juego social para descubrir al impostor",
-  "start_url": "index.html",
+  "id": "./index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#764ba2",
   "theme_color": "#667eea",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
@@ -15,16 +14,16 @@
       "purpose": "any"
     },
     {
-      "src": "icon-192.png",
-      "sizes": "192x192",
+      "src": "icon-512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "any"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any"
+      "purpose": "maskable"
     }
   ]
 }
