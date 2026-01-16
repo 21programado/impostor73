@@ -1,34 +1,46 @@
-const CACHE_NAME = "impostor-v3";
-
+const CACHE_NAME = 'impostor-cache-v1';
 const FILES_TO_CACHE = [
-  "index.html",
-  "manifest.json",
-  "icon-192.png",
-  "icon-512.png"
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png',
+  '/style.css',  // Si tienes archivo separado de CSS
+  '/script.js'   // Si tienes archivo separado de JS
 ];
 
-self.addEventListener("install", event => {
+// Instalar el Service Worker
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        console.log('Archivos cacheados');
+        return cache.addAll(FILES_TO_CACHE);
+      })
   );
-  self.skipWaiting();
 });
 
-self.addEventListener("activate", event => {
+// Activar el Service Worker y eliminar caché viejo
+self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-      )
-    )
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (!cacheWhitelist.includes(cacheName)) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
   );
-  self.clients.claim();
 });
 
-self.addEventListener("fetch", event => {
+// Manejo de peticiones fetch
+self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(
-      cached => cached || fetch(event.request)
-    )
+    caches.match(event.request).then(cachedResponse => {
+      return cachedResponse || fetch(event.request);
+    })
   );
 });
