@@ -1,4 +1,4 @@
-const CACHE_NAME = 'impostor-cache-v1';
+const CACHE_NAME = 'impostor-v2'; // Cambia el nombre para forzar actualización
 const ASSETS = [
   './',
   './index.html',
@@ -9,7 +9,9 @@ const ASSETS = [
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(ASSETS);
+    })
   );
 });
 
