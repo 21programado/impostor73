@@ -1,1 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#667eea">
+  <title>🎭 El Impostor</title>
+  
+  <!-- Enlace al manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon-192.png" sizes="192x192">
+  <link rel="icon" href="icon-512.png" sizes="512x512">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+    
+    h1 {
+      color: #667eea;
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 2em;
+    }
+    
+    .screen {
+      display: none;
+    }
+    
+    .screen.active {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 600;
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      width: 100%;
+      touch-action: manipulation;
+    }
+    
+    button:active {
+      transform: scale(0.98);
+    }
+    
+    button.secondary {
+      background: #6c757d;
+      margin-top: 10px;
+    }
+    
+    button.danger {
+      background: #dc3545;
+    }
+    
+    .players-list {
+      margin: 20px 0;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      max-height: 50vh;
+      overflow-y: auto;
+    }
+    
+    .player-item {
+      padding: 12px;
+      background: white;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .remove-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      width: auto;
+    }
+    
+    .reveal-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 20px;
+      border-radius: 15px;
+      text-align: center;
+      margin: 20px 0;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+      touch-action: manipulation;
+    }
+    
+    .reveal-card:active {
+      transform: scale(0.98);
+    }
+    
+    .reveal-card.revealed {
+      cursor: default;
+    }
+    
+    .reveal-card h2 {
+      font-size: 1.8em;
+      margin-bottom: 15px;
+    }
+    
+    .palabra-secreta {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin: 20px 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      word-wrap: break-word;
+    }
+    
+    .impostor-badge {
+      background: #dc3545;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 2em;
+      font-weight: bold;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .hidden-content {
+      display: none;
+    }
+    
+    .navigation-btns {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .navigation-btns button {
+      flex: 1;
+    }
+    
+    .settings-section {
+      margin-top: 20px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+    
+    .word-input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .word-input-group input {
+      flex: 1;
+    }
+    
+    .word-input-group button {
+      width: auto;
+      padding: 15px 20px;
+    }
+    
+    .words-list {
+      max-height: 200px;
+      overflow-y: auto;
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    
+    .word-tag {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 5px 12px;
+      margin: 5px;
+      border-radius: 15px;
+      font-size: 14px;
+    }
+    
+    .word-tag button {
+      background: none;
+      border: none;
+      color: white;
+      margin-left: 8px;
+      cursor: pointer;
+      padding: 0;
+      width: auto;
+      font-size: 16px;
+    }
+    
+    .tab-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .tab-buttons button {
+      flex: 1;
+      background: #e9ecef;
+      color: #495057;
+    }
+    
+    .tab-buttons button.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎭 El Impostor</h1>
+    
+    <!-- Pantalla 1: Añadir jugadores -->
+    <div id="screen1" class="screen active">
+      <div class="tab-buttons">
+        <button class="active" onclick="showTab('players')">Jugadores</button>
+        <button onclick="showTab('words')">Palabras</button>
+      </div>
+      <div id="playersTab">
+        <div class="input-group">
+          <label for="playerName">Nombre del jugador:</label>
+          <input type="text" id="playerName" placeholder="Ingresa tu nombre">
+        </div>
+        <button onclick="addPlayer()">Añadir Jugador</button>
+        <div class="players-list" id="playersList"></div>
+        <button onclick="startGame()" id="startBtn" style="display:none;">🎮 Iniciar Juego</button>
+      </div>
+      <div id="wordsTab" style="display:none;">
+        <div class="settings-section">
+          <h3>Gestionar Palabras</h3>
+          <div class="word-input-group">
+            <input type="text" id="newWord" placeholder="Nueva palabra">
+            <button onclick="addWord()">➕</button>
+          </div>
+          <p>Total: <span id="wordCount">0</span> palabras</p>
+          <div class="words-list" id="wordsList"></div>
+          <button class="danger" onclick="resetWords()">Restaurar palabras predeterminadas</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pantalla 2: Revelar roles -->
+    <div id="screen2" class="screen">
+      <div id="revealArea"></div>
+      <div class="navigation-btns">
+        <button class="secondary" onclick="restartGame()">🔄 Nuevo Juego</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Aquí va todo el código JavaScript original que me pasaste
+    // Incluyendo las funciones para añadir jugadores, palabras, iniciar el juego, etc.
+  </script>
+
+  <!-- Registrar el Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(registration => {
+            console.log('Service Worker registrado con éxito:', registration);
+          })
+          .catch(error => {
+            console.log('Error al registrar el Service Worker:', error);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
+
 
