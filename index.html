@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
   <title>🎭 El Impostor</title>
 
   <!-- PWA -->
@@ -56,9 +55,6 @@
       margin-top: 10px;
     }
 
-    button.secondary { background: #6c757d; }
-    button.danger { background: #dc3545; }
-
     input {
       width: 100%;
       padding: 15px;
@@ -67,9 +63,6 @@
       font-size: 16px;
       margin-bottom: 10px;
     }
-
-    .screen { display: none; }
-    .screen.active { display: block; }
 
     .players-list {
       margin-top: 20px;
@@ -86,38 +79,14 @@
       justify-content: space-between;
       margin-bottom: 8px;
     }
-
-    .reveal-card {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      padding: 40px 20px;
-      border-radius: 15px;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    .palabra {
-      font-size: 2.4em;
-      font-weight: bold;
-      margin-top: 20px;
-    }
-
-    .impostor {
-      background: #dc3545;
-      padding: 20px;
-      border-radius: 10px;
-      font-size: 2em;
-      font-weight: bold;
-    }
   </style>
 </head>
 
 <body>
   <div class="container">
-
     <h1>🎭 El Impostor</h1>
 
-    <!-- PANTALLA 1 -->
+    <!-- PANTALLA 1: Añadir jugadores -->
     <div id="screen1" class="screen active">
       <input id="playerName" type="text" placeholder="Nombre del jugador">
       <button onclick="addPlayer()">Añadir jugador</button>
@@ -127,18 +96,18 @@
       <button id="startBtn" onclick="startGame()" style="display:none;">Iniciar juego</button>
     </div>
 
-    <!-- PANTALLA 2 -->
+    <!-- PANTALLA 2: Revelar roles -->
     <div id="screen2" class="screen">
       <div id="revealArea"></div>
       <button class="secondary" onclick="restartGame()">Nuevo juego</button>
     </div>
-
   </div>
 
   <script>
+    // Palabras predeterminadas
     const PALABRAS = [
-      "Playa","Montaña","Pizza","Café","Libro","Película",
-      "Guitarra","Fútbol","Perro","Gato","Avión","Barco"
+      "Playa", "Montaña", "Pizza", "Café", "Libro", "Película",
+      "Guitarra", "Fútbol", "Perro", "Gato", "Avión", "Barco"
     ];
 
     let players = [];
@@ -157,7 +126,7 @@
     function renderPlayers() {
       const list = document.getElementById("playersList");
       list.innerHTML = "";
-      players.forEach((p,i) => {
+      players.forEach((p, i) => {
         const div = document.createElement("div");
         div.className = "player-item";
         div.innerHTML = `${p} <button onclick="removePlayer(${i})">×</button>`;
@@ -167,17 +136,17 @@
     }
 
     function removePlayer(i) {
-      players.splice(i,1);
+      players.splice(i, 1);
       renderPlayers();
     }
 
     function startGame() {
-      const palabra = PALABRAS[Math.floor(Math.random()*PALABRAS.length)];
-      const impostor = Math.floor(Math.random()*players.length);
+      const palabra = PALABRAS[Math.floor(Math.random() * PALABRAS.length)];
+      const impostor = Math.floor(Math.random() * players.length);
 
-      game = players.map((p,i)=>({
-        nombre:p,
-        rol: i===impostor ? "IMPOSTOR" : palabra
+      game = players.map((p, i) => ({
+        nombre: p,
+        rol: i === impostor ? "IMPOSTOR" : palabra
       }));
 
       index = 0;
@@ -223,15 +192,8 @@
     }
 
     function show(id) {
-      document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
       document.getElementById(id).classList.add("active");
-    }
-  </script>
-
-  <!-- SERVICE WORKER SEGURO -->
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("sw.js");
     }
   </script>
 
