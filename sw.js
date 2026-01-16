@@ -1,10 +1,11 @@
-const CACHE_NAME = "impostor-v1";
+const CACHE_NAME = "impostor-v2";
 
 const FILES_TO_CACHE = [
-  "/impostor73/index.html",
-  "/impostor73/manifest.json",
-  "/impostor73/icon-192.png",
-  "/impostor73/icon-512.png"
+  "./",
+  "./index.html",
+  "./manifest.json",
+  "./icon-192.png",
+  "./icon-512.png"
 ];
 
 self.addEventListener("install", event => {
@@ -32,4 +33,3 @@ self.addEventListener("fetch", event => {
     )
   );
 });
-
