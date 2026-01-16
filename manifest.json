@@ -1,11 +1,12 @@
 {
-  "name": "El Impostor",
+  "name": "El Impostor - Juego de Mesa",
   "short_name": "Impostor",
-  "description": "Juego de roles donde debes descubrir al impostor",
-  "start_url": "/index.html",
+  "description": "Juego social para descubrir al impostor.",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#764ba2",
   "theme_color": "#667eea",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
